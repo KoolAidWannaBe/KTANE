@@ -29,12 +29,12 @@ class KTANE(tk.Frame):
         
         # List of all module names
         self.modules = [
-            "3D Maze", "Adjacent_Letters", "Adventure_Game", "Alphabet", "Astrology",
+            "3D Maze", "Adjacent Letters", "Adventure Game", "Alphabet", "Astrology",
             "Battleship", "Binary LEDs", "Bitmaps", "Bitwise Operations", "Blind Alley",
             "Boolean Venn Diagram", "Broken Buttons", "Bulb", "Button", "Caesar Cipher",
             "Cheap Checkout", "Chess", "Chord Qualities", "Clock", "ColorFlash",
             "Color Math", "Colored Squares", "Combination Lock", "Complex Wires", "Complicated Buttons",
-            "Connection Check", "Coordinates", "CrazyTalk", "Creation", "Cryptography",
+            "Connection Check", "Coordinates", "Crazy Talk", "Creation", "Cryptography",
             "Double-Oh", "Emoji Math", "English Test", "Fast Math", "Fizz Buzz",
             "Follow the Leader", "Foreign Exchange Rates", "Forget Me Not", "Friendship", "Gamepad",
             "Hexamaze", "HTTP Response", "Ice Cream", "Keypad", "Knobs",
@@ -44,38 +44,37 @@ class KTANE(tk.Frame):
             "Murder", "MysticSquare", "Neutralization", "Number Pad", "Only Connect",
             "Orientation Cube", "Password", "Perspective Pegs", "Piano Keys", "Plumbing",
             "Point of Order", "Probing", "Resistors", "Rhythms", "Rock",
-            "Round Keypad", "Rubik'sCube", "Safety Safe", "Screw", "Sea Shells",
+            "Round Keypad", "Rubik's Cube", "Safety Safe", "Screw", "Sea Shells",
             "Semaphore", "Shape Shift", "Silly Slots", "Simon Says", "Simon Screams",
             "Simon States", "Simple Wires", "Skewed Slots", "Souvenir", "Square Button",
             "Switches", "Symbolic Password", "Text Field", "Tic Tac Toe", "Turn the Keys",
             "Two Bits", "Vent Gas", "Web Design", "Who's on First", "Wire Placement",
-            "Wire Sequences", "Word Search", "Yahtzee", "Zoo", "Zoo 2"
+            "Wire Sequences", "Word Search", "Yahtzee", "Zoo"
         ]
 
         # Create main frame
-        self.frame = tk.Frame(self.root)
-        self.frame.pack(padx=10, pady=10)
+        self.frame = tk.Frame(self.root, bg= '#463f3a')
+        self.frame.pack(padx = 10, pady = 10)
 
         # Calculate rows and columns
         self.cols = BUTTON_GRID_COLUMNS
         self.rows = 1 + (len(self.modules) // BUTTON_GRID_COLUMNS)
 
         # Create buttons
-        edgework = tk.Button(self.frame, text="Edgework", 
-                        width=20, height=4,
-                        command=self.get_edge_work,
-                        justify="center")
-        edgework.grid(padx=2, pady=2)
+        edgework = tk.Button(self.frame, text="Edgework", font = ("Helvetica", 12),
+                        width=100, height=4, bg= "#b36a5e",
+                        command = self.get_edge_work)
+        edgework.grid(columnspan = self.cols, padx=2, pady=2)
+
         for i, module in enumerate(self.modules):
             row = i // self.cols
             col = i % self.cols
-            
-            mods = tk.Button(self.frame, text=module, 
-                        width=15, height=2,
+            mods = tk.Button(self.frame, text=module, font = ("Helvetica", 8), 
+                        width=15, height=2,bg = '#bcb8b1',
                         wraplength=100,
                         command=lambda m=module: self.button_click(m),
                         justify= "center")
-            mods.grid(row=row + 1, column=col, padx=2, pady=2)
+            mods.grid(row=row + 1, column=col, padx=4, pady=4)
 
     def button_click(self, module_name):
         # Convert module name to command name format
@@ -86,66 +85,110 @@ class KTANE(tk.Frame):
         else:
             print(f"Module {module_name} solver not implemented yet")
 
+    def create_widgets(self):
+        # Create and pack main frame
+        main_frame = tk.Frame(self.window, bg='#463f3a')
+        main_frame.pack(padx=20, pady=20)
     
     def get_edge_work(self):
-        edge_work_fields = ("Serial Number", "Lit Indicators", "Unlit Indicators", "Ports", "Port Plates", "Batteries", "Battery Holders")
-        edge_work_values = [None] * len(edge_work_fields)
+        print("On the Subject of Edgework")
+        self.window = tk.Toplevel(self.root)
+        self.window.title("Edgework Input")
+        self.window.configure(bg='#463f3a')
+        self.window.grab_set()
+
+        self.result = None
+        self.create_widgets()
+
+        main_frame = tk.Frame(self.window, bg='#463f3a')
+        main_frame.pack(padx=20, pady=20)
+
+        # Create input fields
+        self.entries = {}
         
-        field_num = 0
-        while field_num < len(edge_work_fields):
-            field = edge_work_fields[field_num]
-            value = input(f"{field}: ")
-            if value:
-                edge_work_values[field_num] = value
-                field_num += 1
-            else:
-                field_num -= 1
-                continue
+        # Serial Number
+        tk.Label(main_frame, text="Serial Number:", bg='#463f3a', fg='white', font=("Helvetica", 10)).grid(row=0, column=0, sticky='w', pady=5)
+        self.entries['serial_number'] = tk.Entry(main_frame, font=("Helvetica", 10))
+        self.entries['serial_number'].grid(row=0, column=1, padx=10, pady=5)
         
-        self.serial_number = edge_work_values[0].lower()
-        self.lit_indicators = edge_work_values[1].lower().split() if edge_work_values[1] != 0 else []
-        self.unlit_indicators = edge_work_values[2].lower().split() if edge_work_values[2] != 0 else []
-        self.ports = edge_work_values[3].lower().split() if edge_work_values[3] != 0 else []
-        self.port_plates = int(edge_work_values[4])
-        self.batteries = int(edge_work_values[5])
-        self.battery_holders = int(edge_work_values[6])
+        # Indicators (with helper text)
+        tk.Label(main_frame, text="Lit Indicators:", bg='#463f3a', fg='white', font=("Helvetica", 10)).grid(row=1, column=0, sticky='w', pady=5)
+        self.entries['lit_indicators'] = tk.Entry(main_frame, font=("Helvetica", 10))
+        self.entries['lit_indicators'].grid(row=1, column=1, padx=10, pady=5)
+        tk.Label(main_frame, text="(space-separated)", bg='#463f3a', fg='white', font=("Helvetica", 8)).grid(row=1, column=2, sticky='w')
+        
+        tk.Label(main_frame, text="Unlit Indicators:", bg='#463f3a', fg='white', font=("Helvetica", 10)).grid(row=2, column=0, sticky='w', pady=5)
+        self.entries['unlit_indicators'] = tk.Entry(main_frame, font=("Helvetica", 10))
+        self.entries['unlit_indicators'].grid(row=2, column=1, padx=10, pady=5)
+        tk.Label(main_frame, text="(space-separated)", bg='#463f3a', fg='white', font=("Helvetica", 8)).grid(row=2, column=2, sticky='w')
+        
+        # Ports
+        tk.Label(main_frame, text="Ports:", bg='#463f3a', fg='white', font=("Helvetica", 10)).grid(row=3, column=0, sticky='w', pady=5)
+        self.entries['ports'] = tk.Entry(main_frame, font=("Helvetica", 10))
+        self.entries['ports'].grid(row=3, column=1, padx=10, pady=5)
+        tk.Label(main_frame, text="(space-separated)", bg='#463f3a', fg='white', font=("Helvetica", 8)).grid(row=3, column=2, sticky='w')
+        
+        # Numeric inputs
+        numeric_fields = [
+            ("Port Plates:", "port_plates"),
+            ("Batteries:", "batteries"),
+            ("Battery Holders:", "battery_holders")
+        ]
+        
+        for i, (label, field) in enumerate(numeric_fields):
+            tk.Label(main_frame, text=label, bg='#463f3a', fg='white', font=("Helvetica", 10)).grid(row=i+4, column=0, sticky='w', pady=5)
+            self.entries[field] = tk.Entry(main_frame, font=("Helvetica", 10), width=5)
+            self.entries[field].grid(row=i+4, column=1, sticky='w', padx=10, pady=5)
+        
+        # Buttons frame
+        button_frame = tk.Frame(main_frame, bg='#463f3a')
+        button_frame.grid(row=7, column=0, columnspan=3, pady=20)
+        
+        tk.Button(button_frame, text="Submit", command=self.submit, bg='#b36a5e', 
+                 font=("Helvetica", 10), width=10).pack(side=tk.LEFT, padx=5)
+        tk.Button(button_frame, text="Cancel", command=self.window.destroy, bg='#bcb8b1',
+                 font=("Helvetica", 10), width=10).pack(side=tk.LEFT, padx=5)
     
-    '''
-    def select_module(self):
-        while True:
-            module = input("Module: ").lower().strip()
-            if module == "blind_alley":
-                self.blind_alley()
-            if module == "button":
-                self.button()
-            elif module == "complicated_wires":
-                self.complicated_wires()
-            elif module == "knobs":
-                self.knobs()
-            elif module == "laundry":
-                self.laundry()
-            elif module == "led_encryption":
-                self.led_encryption()
-            elif module == "memory":
-                self.memory()
-            elif module == "wire_sequences":
-                self.wire_sequences()
-            elif module == "simon_says":
-                self.simon_says()
-            elif module == "simple_wires":
-                self.simple_wires()
-            elif module == "new":
-                self.new_bomb()
-            elif module in ["exit", "quit", "q"]:
-                break
-        '''
+    def submit(self):
+        try:
+            # Validate numeric fields
+            for field in ['port_plates', 'batteries', 'battery_holders']:
+                value = self.entries[field].get().strip()
+                if not value:
+                    value = '0'
+                if not value.isdigit():
+                    tk.messagebox.showerror("Error", f"{field.replace('_', ' ').title()} must be a number")
+                    return
+            
+            # Collect all values
+            self.result = {
+                'serial_number': self.entries['serial_number'].get().strip().lower(),
+                'lit_indicators': self.entries['lit_indicators'].get().strip().lower().split(),
+                'unlit_indicators': self.entries['unlit_indicators'].get().strip().lower().split(),
+                'ports': self.entries['ports'].get().strip().lower().split(),
+                'port_plates': int(self.entries['port_plates'].get().strip() or '0'),
+                'batteries': int(self.entries['batteries'].get().strip() or '0'),
+                'battery_holders': int(self.entries['battery_holders'].get().strip() or '0')
+            }
+
+            self.serial_number = self.result['serial_number']
+            self.lit_indicators = self.result['lit_indicators']
+            self.unlit_indicators = self.result['unlit_indicators']
+            self.ports = self.result['ports']
+            self.port_plates = self.result['port_plates']
+            self.batteries = self.result['batteries']
+            self.battery_holders = self.result['battery_holders']
+
+            self.window.destroy()
+    
+        except ValueError as e:
+            tk.messagebox.showerror("Error", str(e))
 
     def get_serial_first_and_last_digit(self):
         for c in self.serial_number:
             if c.isdigit():
                 first = int(c)
                 break
-
         for c in reversed(self.serial_number):
             if c.isdigit():
                 last = int(c)
@@ -163,15 +206,21 @@ class KTANE(tk.Frame):
   
     '''
     #def three_d_maze():
+
     #def adjacent_letters():
+
     #def adventure_game():
+
     #def alphabet():
+
     #def astrology():
 
     #def battleship():
 
     #def binary_leds():
+
     #def bitmaps():
+    
     #def bitwise_operations():
     '''
 
@@ -265,8 +314,8 @@ class KTANE(tk.Frame):
         # find all positions with the highest value and add to a list
         print(f"Click the following positions, in order: {sort_grid_keys(grid)}")
     
-    
     #def boolean_venn_diagram():
+
     #def broken_buttons():
 
     #def bulb():
@@ -304,19 +353,26 @@ class KTANE(tk.Frame):
             "y": 5
         }
         print(f"Release on {release_times.get(strip_color, 1)}")
-            
 
-
-
+    '''
     #def caesar_cipher(): ******
+
     #def cheap_checkout():
+
     #def chess():
+
     #def chord_qualities():
+
     #def clock():
+
     #def color_flash():
+
     #def color_math():
+
     #def colored_squares():
+
     #def combination_lock():   *******
+    '''
 
     def complicated_wire_solver(self, color, light, star):
         last_digit_even = self.get_serial_first_and_last_digit()[1] % 2 == 0
@@ -344,6 +400,7 @@ class KTANE(tk.Frame):
             wire = input(prompt.format(i)).split()
             self.complicated_wire_solver(wire[0].lower(), wire[1].lower(), wire[2].lower())
 
+    '''
     #def complicated_buttons():
     #def connection_check():
     #def coordinates():
@@ -364,6 +421,7 @@ class KTANE(tk.Frame):
     #def http_response():
     #def ice_cream():
     #def keypad():
+    '''
 
     def knobs(self):
         print("On the Subject of Knobs\nList the lights on the left as a string of six 1s and 0s with 1:on or 0:off")
@@ -377,11 +435,10 @@ class KTANE(tk.Frame):
         if lights == "101111":
             print("RIGHT")
 
-
     def laundry(self):
         print("On the Subject of Laundry")
-        unsolved = input("unsolved: ")
-        solved = input("solved: ")
+        unsolved = int(input("unsolved: "))
+        solved = int(input("solved: "))
         item = (unsolved + len(self.lit_indicators) + len(self.unlit_indicators)) % 6
         material = (len(self.ports) + solved - self.battery_holders) % 6
         
@@ -450,8 +507,6 @@ class KTANE(tk.Frame):
         material_type: str = material[0].lower()
         item_type: str = item[0].lower()
 
-
-
         if color_name == "clouded pearl":
             special_instruction = "Always Use non-chlorine bleach"
         if material_type == "leather" or color_name == "jade cluster":
@@ -503,10 +558,12 @@ class KTANE(tk.Frame):
             
             print(f"Answer: {result.upper()}")
 
-    
     #def letter_keys():
+
     #def light_cycle():
+
     #def listening():
+
     #def logic():               ******
 
     #def maze():
@@ -583,12 +640,8 @@ class KTANE(tk.Frame):
         print("\nStages summary:")
         for i in range(5):
             print(f"Stage {i + 1}: Position {stage_pos[i]}, Number {stage_num[i]}")
-        
-        
 
-
-
-
+    '''
     #def microcontrollers():
     #def minesweeper():
     #def modules_against_humanity():
@@ -623,6 +676,7 @@ class KTANE(tk.Frame):
     #def semaphore():
     #def shape_shift():
     #def silly_slots():
+    '''
 
     def simon_says(self):
         print("On the Subject of Simon Says\n")
@@ -631,8 +685,8 @@ class KTANE(tk.Frame):
         else:
             print("RED->BLUE\nBLUE->YELLOW\nGREEN->GREEN\nYELLOW->RED")
         
-
     #def simon_screams():
+
     #def simon_states():
 
     def simple_wires(self):
@@ -708,6 +762,7 @@ class KTANE(tk.Frame):
 
     #def skewed_slots():
 
+    '''
     #def souvenir():
     #def square_button():
     #def switches():
@@ -716,14 +771,11 @@ class KTANE(tk.Frame):
     #def tic_tac_toe():
     #def turn_the_keys():
     #def two_bits():
-
     #def vent_gas():
-
     #def web_design():
-
     #def whos_on_first():
-
     #def wire_placement():
+    '''
 
     def wire_sequences(self):
         WIRE_ACTIONS = {
@@ -764,10 +816,10 @@ class KTANE(tk.Frame):
 
     #def word_search():
 
-    #def yahtzee():
-        
+    #def yahtzee(): 
+
     #def zoo():
-    
+
 
 
 def main():
