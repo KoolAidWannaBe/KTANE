@@ -220,7 +220,7 @@ class KTANE(tk.Frame):
     #def binary_leds():
 
     #def bitmaps():
-    
+
     #def bitwise_operations():
     '''
 
@@ -314,11 +314,13 @@ class KTANE(tk.Frame):
         # find all positions with the highest value and add to a list
         print(f"Click the following positions, in order: {sort_grid_keys(grid)}")
     
+    '''
     #def boolean_venn_diagram():
 
     #def broken_buttons():
 
     #def bulb():
+    '''
 
     def button(self):
         print("On the Subject of the Button\n")
@@ -558,6 +560,7 @@ class KTANE(tk.Frame):
             
             print(f"Answer: {result.upper()}")
 
+    '''
     #def letter_keys():
 
     #def light_cycle():
@@ -568,6 +571,8 @@ class KTANE(tk.Frame):
 
     #def maze():
 
+    '''
+    
     def memory(self):
         print("On the Subject of Memory\n")
         
