@@ -41,7 +41,7 @@ class KTANE(tk.Frame):
             "Laundry", "LED Encryption", "Letter Keys", "Light Cycle", "Listening",
             "Logic", "Maze", "Memory", "Microcontrollers", "Minesweeper",
             "Modules Against Humanity", "Monsplode Fight", "Morse Code", "Morsematics", "Mouse In The Maze",
-            "Murder", "MysticSquare", "Neutralization", "Number Pad", "Only Connect",
+            "Murder", "Mystic Square", "Neutralization", "Number Pad", "Only Connect",
             "Orientation Cube", "Password", "Perspective Pegs", "Piano Keys", "Plumbing",
             "Point of Order", "Probing", "Resistors", "Rhythms", "Rock",
             "Round Keypad", "Rubik's Cube", "Safety Safe", "Screw", "Sea Shells",
@@ -224,7 +224,17 @@ class KTANE(tk.Frame):
     #def bitwise_operations():
     '''
 
-    def blind_alley(self):
+    def blind_alley(self):    
+        # Create new window
+        window = tk.Toplevel(self.root)
+        window.title("Blind Alley Grid")
+        window.configure(bg='#463f3a')
+        
+        # Create main frame
+        frame = tk.Frame(window, bg='#463f3a')
+        frame.pack(padx=20, pady=20)
+
+        # Calculate grid values
         grid = {
             "top_left": 0,
             "top_middle": 0,
@@ -310,9 +320,53 @@ class KTANE(tk.Frame):
             grid["bottom_right"] += 1
         if "rca" in self.ports:
             grid["bottom_right"] += 1
-
-        # find all positions with the highest value and add to a list
-        print(f"Click the following positions, in order: {sort_grid_keys(grid)}")
+        
+        # Find maximum value for highlighting
+        max_value = max(grid.values())
+        
+        # Create 3x3 grid of labels
+        positions = [
+            ["top_left", "top_middle", ""],
+            ["middle_left", "center", "middle_right"],
+            ["bottom_left", "bottom_middle", "bottom_right"]
+        ]
+        
+        for row_idx, row in enumerate(positions):
+            for col_idx, pos in enumerate(row):
+                if pos:  # Skip empty position
+                    value = grid[pos]
+                    # Create frame for border
+                    cell_frame = tk.Frame(
+                        frame,
+                        width=60,
+                        height=60,
+                        relief=tk.RAISED,
+                        borderwidth=2
+                    )
+                    cell_frame.grid(row=row_idx, column=col_idx, padx=5, pady=5)
+                    cell_frame.grid_propagate(False)  # Maintain size
+                    
+                    # Create label for value
+                    label = tk.Label(
+                        cell_frame,
+                        text=str(value),
+                        font=("Helvetica", 20, "bold"),
+                        bg='#b36a5e' if value == max_value and value > 0 else '#bcb8b1',
+                        fg='white',
+                        width=3,
+                        height=1
+                    )
+                    label.place(relx=0.5, rely=0.5, anchor=tk.CENTER)
+        
+        # Add close button
+        tk.Button(
+            window,
+            text="Close",
+            command=window.destroy,
+            bg='#bcb8b1',
+            font=("Helvetica", 10)
+        ).pack(pady=10)
+        
     
     '''
     #def boolean_venn_diagram():
@@ -323,38 +377,144 @@ class KTANE(tk.Frame):
     '''
 
     def button(self):
-        print("On the Subject of the Button\n")
+        window = tk.Toplevel(self.root)
+        window.title("On the Subject of The Button")
+        window.configure(bg='#463f3a')
+
+        main_frame = tk.Frame(window, bg='#463f3a')
+        main_frame.pack(padx=20, pady=20)
+
+        # Button Color Selection
+        color_frame = tk.LabelFrame(main_frame, text="Button Color", bg='#463f3a', fg='white', font=("Helvetica", 12))
+        color_frame.pack(fill="x", pady=10)
+
+        button_color = tk.StringVar(value="b")
+        colors = [
+            ("Blue", "b", "#0000ff", "white"),
+            ("Yellow", "y", "#ffff00", "black"),
+            ("Red", "r", "#ff0000", "white"),
+            ("White", "w", "#ffffff", "black"),
+            ("Black", "k", "#000000", "white")
+        ]
+
+        for text, value, bg, fg in colors:
+            tk.Radiobutton(
+                color_frame,
+                text=text,
+                variable=button_color,
+                value=value,
+                bg=bg,
+                fg=fg,
+                selectcolor=bg,
+                font=("Helvetica", 10)
+            ).pack(side=tk.LEFT, padx=10, pady=5)
+
+        # Button Text Selection
+        text_frame = tk.LabelFrame(main_frame, text="Button Text", bg='#463f3a', fg='white', font=("Helvetica", 12))
+        text_frame.pack(fill="x", pady=10)
+
+        button_text = tk.StringVar(value="abort")
+        texts = [("Abort", "abort"), ("Detonate", "detonate"), ("Hold", "hold"), ("Press", "press")]
+
+        for text, value in texts:
+            tk.Radiobutton(
+                text_frame,
+                text=text,
+                variable=button_text,
+                value=value,
+                bg='#463f3a',
+                fg='white',
+                selectcolor='#b36a5e',
+                font=("Helvetica", 10)
+            ).pack(side=tk.LEFT, padx=10, pady=5)
+
+        # Action Display
+        action_frame = tk.Frame(main_frame, bg='#463f3a')
+        action_frame.pack(fill="x", pady=10)
+
+        action_label = tk.Label(
+            action_frame,
+            text="",
+            bg='#463f3a',
+            fg='white',
+            font=("Helvetica", 14, "bold")
+        )
+        action_label.pack(pady=10)
+
+        # Strip Color Selection (initially hidden)
+        strip_frame = tk.LabelFrame(main_frame, text="Strip Color and Release Time", bg='#463f3a', fg='white', font=("Helvetica", 12))
+        strip_frame.pack(fill="x", pady=10)
+        strip_frame.pack_forget()
+
+        strip_color = tk.StringVar(value="w")
+        strip_colors = [
+            ("Blue (4)", "b", "#0000ff", "white", 4),
+            ("Yellow (5)", "y", "#ffff00", "black", 5),
+            ("Red (1)", "r", "#ff0000", "white", 1),
+            ("White (1)", "w", "#ffffff", "black", 1)
+        ]
+
+        for text, value, bg, fg, _ in strip_colors:
+            tk.Radiobutton(
+                strip_frame,
+                text=text,
+                variable=strip_color,
+                value=value,
+                bg=bg,
+                fg=fg,
+                selectcolor=bg,
+                font=("Helvetica", 10)
+            ).pack(side=tk.LEFT, padx=10, pady=5)
+
+        def check_button():
+            color = button_color.get()
+            text = button_text.get()
+
+            if color == "b" and text == "abort":
+                action = "Hold"
+            elif self.batteries > 1 and text == "detonate":
+                action = "Tap"
+            elif color == "w" and "car" in self.lit_indicators:
+                action = "Hold"
+            elif self.batteries > 2 and "frk" in self.lit_indicators:
+                action = "Tap"
+            elif color == "y":
+                action = "Hold"
+            elif color == "r" and text == "hold":
+                action = "Tap"
+            else:
+                action = "Hold"
+
+            if action == "Tap":
+                action_label.config(text="Tap the button")
+                strip_frame.pack_forget()
+            else:
+                action_label.config(text="Hold the button")
+                strip_frame.pack()
         
-        button_color = input("Color Abbr.: ").lower().strip()
-        button_text = input("Text: ").lower().strip()
         
-        if button_color == "b" and button_text == "abort":
-            action = "Hold"
-        elif self.batteries > 1 and button_text == "det":
-            action = "Tap"
-        elif button_color == "w" and "car" in self.lit_indicators:
-            action = "Hold"
-        elif self.batteries > 2 and "frk" in self.lit_indicators:
-            action = "Tap"
-        elif button_color == "y":
-            action = "Hold"
-        elif button_color == "r" and button_text == "hold":
-            action = "Tap"
-        else:
-            action = "Hold"
+        # Control buttons
+        button_frame = tk.Frame(main_frame, bg='#463f3a')
+        button_frame.pack(pady=10)
         
-        if action == "Tap":
-            print("Tap the button")
-            return
+        tk.Button(
+            button_frame,
+            text="Check Button",
+            command=check_button,
+            bg='#b36a5e',
+            fg='white',
+            font=("Helvetica", 10)
+        ).pack(side=tk.LEFT, padx=5)
         
-        print("Hold the button")
-        strip_color = input("Strip color: ").lower().strip()
         
-        release_times = {
-            "b": 4,
-            "y": 5
-        }
-        print(f"Release on {release_times.get(strip_color, 1)}")
+        tk.Button(
+            button_frame,
+            text="Close",
+            command=window.destroy,
+            bg='#bcb8b1',
+            fg='black',
+            font=("Helvetica", 10)
+        ).pack(side=tk.LEFT, padx=5)
 
     '''
     #def caesar_cipher(): ******
@@ -404,24 +564,43 @@ class KTANE(tk.Frame):
 
     '''
     #def complicated_buttons():
+
     #def connection_check():
+
     #def coordinates():
+
     #def crazy_talk():
+
     #def creation():
+
     #def cryptography():
+
     #def double_oh():
+
     #def emoji_math():
+
     #def english_test():
+
     #def fast_math():
+
     #def fizzbuzz():
+
     #def follow_the_leader():
+
     #def foreign_exchange_rates():
+
     #def forget_me_not():
+
     #def friendship():
+
     #def gamepad():
+
     #def hexamaze():
+
     #def http_response():
+
     #def ice_cream():
+
     #def keypad():
     '''
 
@@ -520,7 +699,7 @@ class KTANE(tk.Frame):
         if bool(set(self.serial_number) & set(color_name)):
             special_instruction = color[special_index]
 
-        print(f"\nItem: {item_type.title()}\nMaterial: {material_type.title()}\nColor: {color_name.title()}")
+        #print(f"\nItem: {item_type.title()}\nMaterial: {material_type.title()}\nColor: {color_name.title()}")
 
         if "always" not in str(wash_instruction).lower():
             wash_instruction = material[wash_index]
@@ -533,7 +712,7 @@ class KTANE(tk.Frame):
 
         print(f"\nWash: {wash_instruction.title()}\nDry: {dry_instruction.title()}\nIron: {iron_instruction.title()}\nSpecial: {special_instruction.title()}")
 
-    @staticmethod
+    @staticmethod 
     def led_encryption():
         print("On the Subject of LED Encryption")
         leds = input("LEDs (abbrev.): ").split()
@@ -572,7 +751,7 @@ class KTANE(tk.Frame):
     #def maze():
 
     '''
-    
+
     def memory(self):
         print("On the Subject of Memory\n")
         
@@ -648,38 +827,63 @@ class KTANE(tk.Frame):
 
     '''
     #def microcontrollers():
+
     #def minesweeper():
+
     #def modules_against_humanity():
+
     #def monsplode_fight():
 
     #def morse_code():
 
     #def morsematics():
+
     #def mouse_in_the_maze():
+
     #def murder():              *******
+
     #def mystic_square():
+
     #def neutralization():
+
     #def number_pad():
+
     #def only_connect():
+
     #def orientation_cube():
 
     #def password():
 
     #def perspective_pegs():
+
     #def piano_keys():
+
     #def plumbing():
+
     #def point_of_order():
+
     #def probing():
+
     #def resistors():
+
     #def rhythms():
+
     #def rock_paper_scissors_lizard_spock():
+
     #def round_keypad():
+
     #def rubiks_cube():
+
     #def safety_safe():
+
     #def screw():
+
     #def sea_shells():
+
     #def semaphore():
+
     #def shape_shift():
+    
     #def silly_slots():
     '''
 
