@@ -4,6 +4,15 @@ from math import ceil
 
 LED_ENCRYPTION_MULT_LIST = ["r", "g", "b", "y", "p", "o"]
 BUTTON_GRID_COLUMNS = 8
+BACKGROUND_COLOR = '#56554e'
+BUTTON_COLOR = '#bcb8b1'
+RED_COLOR = '#bf534c'
+BLUE_COLOR = '#455773'
+WHITE_COLOR = '#fff5e3'
+YELLOW_COLOR = '#f8c42c'
+BLACK_COLOR = '#16171b'
+MODULE_COLOR = '#bbbdbd'
+ORANGE_COLOR = '#bb421e'
 
 def sort_grid_keys(grid):
     # Sort items by value in descending order, returning the keys
@@ -53,7 +62,7 @@ class KTANE(tk.Frame):
         ]
 
         # Create main frame
-        self.frame = tk.Frame(self.root, bg= '#463f3a')
+        self.frame = tk.Frame(self.root, bg= BACKGROUND_COLOR)
         self.frame.pack(padx = 10, pady = 10)
 
         # Calculate rows and columns
@@ -62,7 +71,7 @@ class KTANE(tk.Frame):
 
         # Create buttons
         edgework = tk.Button(self.frame, text="Edgework", font = ("Helvetica", 12),
-                        width=100, height=4, bg= "#b36a5e",
+                        width=100, height=4, bg= RED_COLOR,
                         command = self.get_edge_work)
         edgework.grid(columnspan = self.cols, padx=2, pady=2)
 
@@ -70,7 +79,7 @@ class KTANE(tk.Frame):
             row = i // self.cols
             col = i % self.cols
             mods = tk.Button(self.frame, text=module, font = ("Helvetica", 8), 
-                        width=15, height=2,bg = '#bcb8b1',
+                        width=15, height=2,bg = MODULE_COLOR,
                         wraplength=100,
                         command=lambda m=module: self.button_click(m),
                         justify= "center")
@@ -87,46 +96,46 @@ class KTANE(tk.Frame):
 
     def create_widgets(self):
         # Create and pack main frame
-        main_frame = tk.Frame(self.window, bg='#463f3a')
+        main_frame = tk.Frame(self.window, bg=BLUE_COLOR)
         main_frame.pack(padx=20, pady=20)
     
     def get_edge_work(self):
         print("On the Subject of Edgework")
         self.window = tk.Toplevel(self.root)
         self.window.title("Edgework Input")
-        self.window.configure(bg='#463f3a')
+        self.window.configure(bg= BACKGROUND_COLOR)
         self.window.grab_set()
 
         self.result = None
         self.create_widgets()
 
-        main_frame = tk.Frame(self.window, bg='#463f3a')
+        main_frame = tk.Frame(self.window, bg= BACKGROUND_COLOR)
         main_frame.pack(padx=20, pady=20)
 
         # Create input fields
         self.entries = {}
         
         # Serial Number
-        tk.Label(main_frame, text="Serial Number:", bg='#463f3a', fg='white', font=("Helvetica", 10)).grid(row=0, column=0, sticky='w', pady=5)
+        tk.Label(main_frame, text="Serial Number:", bg= MODULE_COLOR, fg='black', font=("Helvetica", 10)).grid(row=0, column=0, sticky='w', pady=5)
         self.entries['serial_number'] = tk.Entry(main_frame, font=("Helvetica", 10))
         self.entries['serial_number'].grid(row=0, column=1, padx=10, pady=5)
         
         # Indicators (with helper text)
-        tk.Label(main_frame, text="Lit Indicators:", bg='#463f3a', fg='white', font=("Helvetica", 10)).grid(row=1, column=0, sticky='w', pady=5)
+        tk.Label(main_frame, text="Lit Indicators:", bg=MODULE_COLOR, fg='black', font=("Helvetica", 10)).grid(row=1, column=0, sticky='w', pady=5)
         self.entries['lit_indicators'] = tk.Entry(main_frame, font=("Helvetica", 10))
         self.entries['lit_indicators'].grid(row=1, column=1, padx=10, pady=5)
-        tk.Label(main_frame, text="(space-separated)", bg='#463f3a', fg='white', font=("Helvetica", 8)).grid(row=1, column=2, sticky='w')
+        tk.Label(main_frame, text="(space-separated)", bg=MODULE_COLOR, fg='black', font=("Helvetica", 8)).grid(row=1, column=2, sticky='w')
         
-        tk.Label(main_frame, text="Unlit Indicators:", bg='#463f3a', fg='white', font=("Helvetica", 10)).grid(row=2, column=0, sticky='w', pady=5)
+        tk.Label(main_frame, text="Unlit Indicators:", bg=MODULE_COLOR, fg='black', font=("Helvetica", 10)).grid(row=2, column=0, sticky='w', pady=5)
         self.entries['unlit_indicators'] = tk.Entry(main_frame, font=("Helvetica", 10))
         self.entries['unlit_indicators'].grid(row=2, column=1, padx=10, pady=5)
-        tk.Label(main_frame, text="(space-separated)", bg='#463f3a', fg='white', font=("Helvetica", 8)).grid(row=2, column=2, sticky='w')
+        tk.Label(main_frame, text="(space-separated)", bg=MODULE_COLOR, fg='black', font=("Helvetica", 8)).grid(row=2, column=2, sticky='w')
         
         # Ports
-        tk.Label(main_frame, text="Ports:", bg='#463f3a', fg='white', font=("Helvetica", 10)).grid(row=3, column=0, sticky='w', pady=5)
+        tk.Label(main_frame, text="Ports:", bg=MODULE_COLOR, fg='black', font=("Helvetica", 10)).grid(row=3, column=0, sticky='w', pady=5)
         self.entries['ports'] = tk.Entry(main_frame, font=("Helvetica", 10))
         self.entries['ports'].grid(row=3, column=1, padx=10, pady=5)
-        tk.Label(main_frame, text="(space-separated)", bg='#463f3a', fg='white', font=("Helvetica", 8)).grid(row=3, column=2, sticky='w')
+        tk.Label(main_frame, text="(space-separated)", bg=MODULE_COLOR, fg='black', font=("Helvetica", 8)).grid(row=3, column=2, sticky='w')
         
         # Numeric inputs
         numeric_fields = [
@@ -136,17 +145,17 @@ class KTANE(tk.Frame):
         ]
         
         for i, (label, field) in enumerate(numeric_fields):
-            tk.Label(main_frame, text=label, bg='#463f3a', fg='white', font=("Helvetica", 10)).grid(row=i+4, column=0, sticky='w', pady=5)
+            tk.Label(main_frame, text=label, bg=RED_COLOR, fg='white', font=("Helvetica", 10)).grid(row=i+4, column=0, sticky='w', pady=5)
             self.entries[field] = tk.Entry(main_frame, font=("Helvetica", 10), width=5)
             self.entries[field].grid(row=i+4, column=1, sticky='w', padx=10, pady=5)
         
         # Buttons frame
-        button_frame = tk.Frame(main_frame, bg='#463f3a')
+        button_frame = tk.Frame(main_frame, bg=BACKGROUND_COLOR)
         button_frame.grid(row=7, column=0, columnspan=3, pady=20)
         
-        tk.Button(button_frame, text="Submit", command=self.submit, bg='#b36a5e', 
+        tk.Button(button_frame, text="Submit", command=self.submit, bg=RED_COLOR, 
                  font=("Helvetica", 10), width=10).pack(side=tk.LEFT, padx=5)
-        tk.Button(button_frame, text="Cancel", command=self.window.destroy, bg='#bcb8b1',
+        tk.Button(button_frame, text="Cancel", command=self.window.destroy, bg=BUTTON_COLOR,
                  font=("Helvetica", 10), width=10).pack(side=tk.LEFT, padx=5)
     
     def submit(self):
@@ -228,10 +237,10 @@ class KTANE(tk.Frame):
         # Create new window
         window = tk.Toplevel(self.root)
         window.title("Blind Alley Grid")
-        window.configure(bg='#463f3a')
+        window.configure(bg=BACKGROUND_COLOR)
         
         # Create main frame
-        frame = tk.Frame(window, bg='#463f3a')
+        frame = tk.Frame(window, bg=MODULE_COLOR)
         frame.pack(padx=20, pady=20)
 
         # Calculate grid values
@@ -351,7 +360,7 @@ class KTANE(tk.Frame):
                         cell_frame,
                         text=str(value),
                         font=("Helvetica", 20, "bold"),
-                        bg='#b36a5e' if value == max_value and value > 0 else '#bcb8b1',
+                        bg=RED_COLOR if value == max_value and value > 0 else BACKGROUND_COLOR,
                         fg='white',
                         width=3,
                         height=1
@@ -379,92 +388,55 @@ class KTANE(tk.Frame):
     def button(self):
         window = tk.Toplevel(self.root)
         window.title("On the Subject of The Button")
-        window.configure(bg='#463f3a')
+        window.configure(bg=BACKGROUND_COLOR)
 
-        main_frame = tk.Frame(window, bg='#463f3a')
+        main_frame = tk.Frame(window, bg=BACKGROUND_COLOR)
         main_frame.pack(padx=20, pady=20)
 
         # Button Color Selection
-        color_frame = tk.LabelFrame(main_frame, text="Button Color", bg='#463f3a', fg='white', font=("Helvetica", 12))
+        color_frame = tk.LabelFrame(main_frame, text="Button Color", bg=BACKGROUND_COLOR, fg='white', font=("Helvetica", 12))
         color_frame.pack(fill="x", pady=10)
 
         button_color = tk.StringVar(value="b")
         colors = [
-            ("Blue", "b", "#0000ff", "white"),
-            ("Yellow", "y", "#ffff00", "black"),
-            ("Red", "r", "#ff0000", "white"),
-            ("White", "w", "#ffffff", "black"),
-            ("Black", "k", "#000000", "white")
+            ("Blue", "b", BLUE_COLOR, "white"),
+            ("Yellow", "y", YELLOW_COLOR, "black"),
+            ("Red", "r", RED_COLOR, "white"),
+            ("White", "w", WHITE_COLOR, "black"),
+            ("Black", "k", BLACK_COLOR, "white")
         ]
 
-        for text, value, bg, fg in colors:
-            tk.Radiobutton(
-                color_frame,
-                text=text,
-                variable=button_color,
-                value=value,
-                bg=bg,
-                fg=fg,
-                selectcolor=bg,
-                font=("Helvetica", 10)
-            ).pack(side=tk.LEFT, padx=10, pady=5)
-
-        # Button Text Selection
-        text_frame = tk.LabelFrame(main_frame, text="Button Text", bg='#463f3a', fg='white', font=("Helvetica", 12))
-        text_frame.pack(fill="x", pady=10)
-
-        button_text = tk.StringVar(value="abort")
-        texts = [("Abort", "abort"), ("Detonate", "detonate"), ("Hold", "hold"), ("Press", "press")]
-
-        for text, value in texts:
-            tk.Radiobutton(
-                text_frame,
-                text=text,
-                variable=button_text,
-                value=value,
-                bg='#463f3a',
-                fg='white',
-                selectcolor='#b36a5e',
-                font=("Helvetica", 10)
-            ).pack(side=tk.LEFT, padx=10, pady=5)
-
         # Action Display
-        action_frame = tk.Frame(main_frame, bg='#463f3a')
-        action_frame.pack(fill="x", pady=10)
-
         action_label = tk.Label(
-            action_frame,
+            main_frame,
             text="",
-            bg='#463f3a',
+            bg=BACKGROUND_COLOR,
             fg='white',
             font=("Helvetica", 14, "bold")
         )
         action_label.pack(pady=10)
 
         # Strip Color Selection (initially hidden)
-        strip_frame = tk.LabelFrame(main_frame, text="Strip Color and Release Time", bg='#463f3a', fg='white', font=("Helvetica", 12))
+        strip_frame = tk.LabelFrame(main_frame, text="Strip Color and Release Time", bg=BACKGROUND_COLOR, fg='white', font=("Helvetica", 12))
         strip_frame.pack(fill="x", pady=10)
         strip_frame.pack_forget()
 
-        strip_color = tk.StringVar(value="w")
         strip_colors = [
-            ("Blue (4)", "b", "#0000ff", "white", 4),
-            ("Yellow (5)", "y", "#ffff00", "black", 5),
-            ("Red (1)", "r", "#ff0000", "white", 1),
-            ("White (1)", "w", "#ffffff", "black", 1)
+            ("4", "b", "#2545af", "white", 4),
+            ("5", "y", "#f8c42c", "black", 5),
+            ("1", "r", "#c42a37", "white", 1),
+            ("1", "w", "#fff5e3", "black", 1)
         ]
 
         for text, value, bg, fg, _ in strip_colors:
-            tk.Radiobutton(
+            tk.Label(
                 strip_frame,
                 text=text,
-                variable=strip_color,
-                value=value,
                 bg=bg,
                 fg=fg,
-                selectcolor=bg,
-                font=("Helvetica", 10)
-            ).pack(side=tk.LEFT, padx=10, pady=5)
+                font=("Helvetica", 10),
+                width=4
+            ).pack(side="left", padx=10, pady=5)
 
         def check_button():
             color = button_color.get()
@@ -491,30 +463,42 @@ class KTANE(tk.Frame):
             else:
                 action_label.config(text="Hold the button")
                 strip_frame.pack()
-        
-        
-        # Control buttons
-        button_frame = tk.Frame(main_frame, bg='#463f3a')
-        button_frame.pack(pady=10)
-        
-        tk.Button(
-            button_frame,
-            text="Check Button",
-            command=check_button,
-            bg='#b36a5e',
-            fg='white',
-            font=("Helvetica", 10)
-        ).pack(side=tk.LEFT, padx=5)
-        
-        
-        tk.Button(
-            button_frame,
-            text="Close",
-            command=window.destroy,
-            bg='#bcb8b1',
-            fg='black',
-            font=("Helvetica", 10)
-        ).pack(side=tk.LEFT, padx=5)
+
+        for text, value, bg, fg in colors:
+            tk.Radiobutton(
+                color_frame,
+                text=text,
+                variable=button_color,
+                value=value,
+                bg=bg,
+                fg=fg,
+                selectcolor=bg,
+                command=check_button,
+                font=("Helvetica", 10)
+            ).pack(side=tk.LEFT, padx=10, pady=5)
+
+        # Button Text Selection
+        text_frame = tk.LabelFrame(main_frame, text="Button Text", bg=BACKGROUND_COLOR, fg='white', font=("Helvetica", 12))
+        text_frame.pack(fill="x", pady=10)
+
+        button_text = tk.StringVar(value="abort")
+        texts = [("Abort", "abort"), ("Detonate", "detonate"), ("Hold", "hold"), ("Press", "press")]
+
+        for text, value in texts:
+            tk.Radiobutton(
+                text_frame,
+                text=text,
+                variable=button_text,
+                value=value,
+                command=check_button,
+                bg=BACKGROUND_COLOR,
+                fg='white',
+                selectcolor='#b36a5e',
+                font=("Helvetica", 10)
+            ).pack(side=tk.LEFT, padx=10, pady=5)
+
+        # Call check_button initially to set the initial state
+        check_button()
 
     '''
     #def caesar_cipher(): ******
